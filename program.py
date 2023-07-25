@@ -5,16 +5,13 @@ import cv2
 from time import time
 import pyttsx3
 
-class MugDetection:
+class KitchenDetection:
     """
-    Class implements Yolo5 model to make inferences on a youtube video using Opencv2.
+    Class implements Yolo5 model and said the label name when the object detected. 
     """
-
     def __init__(self, capture_index, model_name):
         """
-        Initializes the class with youtube url and output file.
-        :param url: Has to be as youtube URL,on which prediction is made.
-        :param out_file: A valid output file name.
+        Initializes the class
         """
         self.tts_engine = pyttsx3.init()
         self.capture_index = capture_index
@@ -23,18 +20,18 @@ class MugDetection:
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         print("Using Device: ", self.device)
 
-    def get_video_capture(self):
+    def video_cap(self):
         """
-        Creates a new video streaming object to extract video frame by frame to make prediction on.
-        :return: opencv2 video capture object, with lowest quality frame available for video.
+        Creates a new video streaming object to extract video frame by frame to make prediction and
+        return opencv2 video capture object.
         """
       
         return cv2.VideoCapture(self.capture_index)
 
     def load_model(self, model_name):
         """
-        Loads Yolo5 model from pytorch hub.
-        :return: Trained Pytorch model.
+        Loads Yolo5 model from ultralytics.
+        :return: Trained model.
         """
         if model_name:
             model = torch.hub.load('ultralytics/yolov5', 'custom', path=model_name, force_reload=True)
@@ -44,9 +41,7 @@ class MugDetection:
 
     def score_frame(self, frame):
         """
-        Takes a single frame as input, and scores the frame using yolo5 model.
-        :param frame: input frame in numpy/list/tuple format.
-        :return: Labels and Coordinates of objects detected by model in the frame.
+        Takes a single frame as input, and scores the frame using yolo5s model.
         """
         self.model.to(self.device)
         frame = [frame]
@@ -62,11 +57,14 @@ class MugDetection:
         """
         return self.classes[int(x)]
     def speaks(self,text):
-     # Initialize the pyttsx3 engine
+        """
+        Initialize the pyttsx3 engine
+        """
         engine = pyttsx3.init()
-    
-     # Set the properties for the speech
-    # You can customize the voice, speed, volume, etc.
+        """
+        Set the properties for the speech
+        You can customize the voice, speed, volume, etc.
+        """
         engine.setProperty('rate', 150)  # Speed of speech
         engine.setProperty('volume', 0.8)  # Volume (0.0 to 1.0)
 
@@ -76,8 +74,8 @@ class MugDetection:
 
     def plot_boxes(self, results, frame):
         """
-        Takes a frame and its results as input, and plots the bounding boxes and label on to the frame.
-        :param results: contains labels and coordinates predicted by model on the given frame.
+        Takes a frame and results as input, and plots the bounding boxes and label on to the frame.
+        :param results: contains labels and coordinates predicted by model on the frame.
         :param frame: Frame which has been scored.
         :return: Frame with bounding boxes and labels ploted on it.
         """
@@ -97,11 +95,10 @@ class MugDetection:
 
     def __call__(self):
         """
-        This function is called when class is executed, it runs the loop to read the video frame by frame,
-        and write the output into a new file.
+        This function is called when class is executed, it's looping to read the video frame by frame.
         :return: void
         """
-        cap = self.get_video_capture()
+        cap = self.video_cap()
         assert cap.isOpened()
       
         while True:
@@ -129,6 +126,6 @@ class MugDetection:
         cap.release()
         
         
-# Create a new object and execute.
-detector = MugDetection(capture_index=0, model_name='yolov5s.pt')
+# Execute the program.
+detector = KitchenDetection(capture_index=0, model_name='yolov5s.pt')
 detector()

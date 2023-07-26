@@ -127,5 +127,5 @@ class KitchenDetection:
         
         
 # Execute the program.
-detector = KitchenDetection(capture_index=0, model_name='yolov5s.pt')
+detector = KitchenDetection(capture_index=0, model_name='yolov5s.pt') #You can use best.pt instead for the model best weights recorded during training.
 detector()

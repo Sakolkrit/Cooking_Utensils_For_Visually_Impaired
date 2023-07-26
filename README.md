@@ -9,7 +9,7 @@ This is the project that I create for visually impaired to know what is the obje
 ## MVP Program Application
 Application that enables live webcam detection using pretrained YOLOv5s weights, see real time inference result of the model, and voice the object named by using [pyttsx3](https://pypi.org/project/pyttsx3/).
 
-![YOLOv5_object_detection](https://github.com/Sakolkrit/Cooking_Utensils_For_Visually_Impaired/assets/93993627/2edf71aa-b9a8-4710-9ebd-02799262999a)
+![YOLOv5_object_detection](https://cdn.discordapp.com/attachments/1045652755978670121/1133449159903563826/image.png))
 
 ## Run
 - Open cmd
